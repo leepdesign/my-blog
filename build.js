@@ -21,19 +21,20 @@ export async function build() {
   const posts = loadPosts();
   const tags = countTags(posts, site.tagOrder);
 
-  const homeMd = readIfExists(path.join(ROOT, 'content/home.md'));
+  // Shown on the home page and on every tag page, so switching tags keeps the intro
+  const intro = `<div class="intro">${marked.parse(readIfExists(path.join(ROOT, 'content/home.md')))}</div>`;
   writePage('index.html', layout(site, {
     title: site.title,
     description: site.description,
     bodyClass: 'home',
-    main: `<div class="intro">${marked.parse(homeMd)}</div>${writingSection(site, posts, tags)}`,
+    main: intro + writingSection(site, posts, tags),
   }));
 
   for (const [tag] of tags) {
     writePage(`tags/${tag}/index.html`, layout(site, {
       title: `${tag} · ${site.title}`,
       bodyClass: 'home',
-      main: writingSection(site, posts.filter((p) => p.tags.includes(tag)), tags, tag),
+      main: intro + writingSection(site, posts.filter((p) => p.tags.includes(tag)), tags, tag),
     }));
   }
 
