@@ -118,7 +118,6 @@ function writingSection(site, posts, tags = [], current = null) {
     ? `<span aria-hidden="true">&middot;</span><a href="${site.extraLink.href}">${esc(site.extraLink.label)}</a>`
     : '';
   const tagNav = tags.length ? `<nav class="tag-nav" aria-label="按标签筛选">
-      <a href="/"${current ? '' : ' aria-current="page"'}>全部</a>
       ${tags.map(([t, n]) => `<a href="${tagHref(t)}"${t === current ? ' aria-current="page"' : ''}>${esc(t)}<sup>${n}</sup></a>`).join('')}
     </nav>` : '';
   const groups = [...years].map(([year, list]) => `
